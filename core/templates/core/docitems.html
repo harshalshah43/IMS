@@ -1,0 +1,49 @@
+{% extends "core/base.html" %}  
+{% block content %}
+
+<div class="col-md-12 offset mt-1">
+    
+    <div class = "container-lg">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card mt-1 mb-1" style="width:100%">
+                    <div class="card-body" style="text-align: left; padding-left: 35%;">
+                      <h5 class="card-title">Document Name: {% if document.type == "INC"%}Incoming{% endif %} {% if document.type == "OUT"%}Outgoing{% endif %} {{document.date_posted}}</h5>
+                      <h6 class="card-subtitle mb-2">Invoice No: {{document.invoiceno}} | OA No: {{document.OAno}}</h6>
+                      <h6 class="card-subtitle mb-2">Location: {{document.location}} | Total Quantity: {{document.total_qty}} Nos</h6>
+                      <h6 class="card-subtitle mb-2"></h6>
+                      <h6 class="card-subtitle mb-2">Person: {{document.person}}</h6>
+                      <h6 class="card-subtitle mb-2"></h6>
+                      <a href="" class="card-link">DELETE INFORMATION</a>
+                      <a href="" class="card-link">EDIT INFORMATION</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-6">
+            <a href="{% url 'create-docitem' document.id %}" class="btn btn-primary">Add Items</a>
+          </div>
+        </div>
+        <table class="table table-striped table-bordered" width="100%">
+          <thead style="position: sticky;top: 0" class="thead-light">
+              <th>Item</th>
+              <th>Qty</th>
+          </thead>
+      <tbody>
+          {% for docitem in docitems %}
+          <tr>
+            <td>{{docitem.item.item_code}}</td>
+            <td>{{docitem.qty}} Nos</td>    
+          </tr>
+        {% endfor %}
+        <tr style="font-weight:bold">
+          <td>Total Quantity</td>
+          <td>{{document.total_qty}} Nos</td>    
+        </tr>
+      </tbody>
+      </table>
+      
+    </div>
+</div>
+{% endblock content %}

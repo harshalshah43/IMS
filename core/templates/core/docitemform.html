@@ -1,0 +1,32 @@
+{% extends "core/base.html" %}  
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="col-md-10 offset-md-1 mt-2">
+    <div class="container" style="text-align: center;">
+        <div class="row">
+            <div class="col-sm-12" style="padding:30px;border: radius 30px;">
+                <h4 class="text-center alert alert-danger">
+                    Add Item
+                </h4>
+                <form method="POST">
+                    {% csrf_token %}
+                    {{ formset.management_form }}
+                    {% for form in formset %}
+                    <div class="form-row">
+                        <div class="form-group col-sm-6">
+                            {{form.item|as_crispy_field}}
+                        </div>
+                        <div class="form-group col-sm-6">
+                            {{form.qty|as_crispy_field}}
+                        </div>
+                    </div>
+                        <hr>
+                    {% endfor %}
+                    <input type="submit" name="Submit">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

@@ -1,0 +1,59 @@
+{% extends "core/base.html" %}  
+{% block content %}
+
+  <div class="col-md-12 offset mt-1">
+    <div class="card-body text-center">
+      <h5 class="card-title m-b-0">Recent Documents</h5>
+    </div>
+    <div class="table-responsive">
+    <table id="bootstrapdatatable" class="table table-striped table-bordered" width="100%">
+        <thead style="position: sticky;top: 0" class="thead-light">
+            <th>Date</th>
+            <th>Total Qty</th>
+            <th>Person</th>
+            <th>Location</th>
+            <th>Type</th>
+            <th>Invoice No</th>
+            <th>OA No</th>
+            <th></th>
+        </thead>
+    <tbody>
+        {% for document in documents %}
+        <tr>
+          <td>{{document.date_posted}}</td>
+          <td>{{document.total_qty}}</td>
+          <td>{{document.person}}</td>
+          <td>{{document.godown.godown_name}}</td>
+          {% if document.type == "OUT" %}
+            <td>Outgoing</td>
+          {% elif document.type == "INC" %}
+            <td>Incoming</td>
+          {% endif %}
+          <td>{{document.invoiceno}}</td>
+          <td>{{document.OAno}}</td>
+          <td><a href="{% url 'docitems' document.id %}">View</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+    </table>
+    </div>
+    <form class="form-control" method="GET" action="{% url 'create-document' %}">
+      {% csrf_token %}
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="type" id="incoming" value="INC">
+        <label class="form-check-label" for="incoming">
+          Incoming
+        </label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="type" id="outgoing" value="OUT">
+        <label class="form-check-label" for="outgoing">
+          Outgoing
+        </label>
+      </div>
+      <div class="form-check">
+        <button class="btn btn-primary btn-sm" type="submit">Create Document</button>
+      </div>  
+    </form>
+  </div>
+{% endblock content %}
